@@ -16,7 +16,9 @@ function DataTable({ dataResponse, isLoading }) {
     return (
       <div>
         <p className="muted">No records found for {device_id || "your account"}.</p>
-        <p className="text-secondary">Role: <strong>{role}</strong></p>
+        <p className="text-secondary">
+          Role: <strong>{role}</strong>
+        </p>
       </div>
     );
   }
@@ -43,7 +45,7 @@ function DataTable({ dataResponse, isLoading }) {
         {device_id && <span className="badge">Device: {device_id}</span>}
         <span className="badge badge-count">{data.length} records</span>
       </div>
-      
+
       <div className="table-wrapper">
         <table className="data-table">
           <thead>
