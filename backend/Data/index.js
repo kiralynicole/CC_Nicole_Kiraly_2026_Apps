@@ -5,29 +5,47 @@ const {
   preflightResponse,
 } = require("../shared/auth");
 const { emit, finishRequest, maskDeviceId, startRequest } = require("../shared/logging");
-const fs = require("fs");
-const path = require("path");
+const { BlobServiceClient } = require("@azure/storage-blob");
+const { DefaultAzureCredential } = require("@azure/identity");
+const Papa = require("papaparse");
 
-function loadEnergyData() {
+async function loadEnergyData() {
   try {
-    const mockPath = path.join(__dirname, "./mockData.json");
-    const mockContent = fs.readFileSync(mockPath, "utf-8");
-    return JSON.parse(mockContent);
+    const accountName = process.env.STORAGE_ACCOUNT_NAME;
+    const containerName = process.env.DATASETS_CONTAINER_NAME;
+
+    const client = new BlobServiceClient(
+      `https://${accountName}.blob.core.windows.net`,
+      new DefaultAzureCredential()
+    );
+
+    const containerClient = client.getContainerClient(containerName);
+    const blobClient = containerClient.getBlobClient("energy_usage_large.csv"); // replace with your CSV filename
+
+    const downloadResponse = await blobClient.download();
+    const chunks = [];
+    for await (const chunk of downloadResponse.readableStreamBody) {
+      chunks.push(chunk);
+    }
+    const csvText = Buffer.concat(chunks).toString("utf-8");
+    const { data } = Papa.parse(csvText, { header: true, skipEmptyLines: true });
+    return data;
   } catch (error) {
-    console.error("Error loading energy data:", error);
+    console.error("Error loading energy data from blob:", error);
+    return [];
   }
 }
 
-const allData = loadEnergyData();
-
 module.exports = async function data(context, req) {
   const request = startRequest(context, req, "/api/data");
-
+  
   if (req.method === "OPTIONS") {
     context.res = preflightResponse(request.correlationId);
     finishRequest(context, request, 204);
     return;
   }
+
+  const allData = await loadEnergyData();
 
   try {
     const auth = await authenticate(req);
