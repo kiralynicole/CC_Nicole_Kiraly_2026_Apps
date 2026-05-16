@@ -4,6 +4,27 @@
   gap: 1rem;
 }
 
+.charts-row {
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.card-chart {
+  flex: 1 1 320px;
+  min-height: 220px;
+  padding: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.card-chart h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+}
+
 .data-table-info {
   display: flex;
   gap: 0.75rem;

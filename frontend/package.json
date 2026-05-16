@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "oidc-client-ts": "^3.5.0",
+    "react-chartjs-2": "^5.2.0",
+    "chart.js": "^4.4.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-oidc-context": "^3.3.1",
