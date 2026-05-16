@@ -20,7 +20,7 @@ async function loadEnergyData() {
     );
 
     const containerClient = client.getContainerClient(containerName);
-    const blobClient = containerClient.getBlobClient("energy_usage_large.csv"); // replace with your CSV filename
+    const blobClient = containerClient.getBlobClient("energy_usage_large.csv"); 
 
     const downloadResponse = await blobClient.download();
     const chunks = [];

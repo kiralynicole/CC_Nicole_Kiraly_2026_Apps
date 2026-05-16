@@ -105,24 +105,28 @@ function DataTable({ dataResponse, isLoading }) {
       <div className="charts-row">
         <div className="card-chart">
           <h3>kWh Over Time</h3>
-          <Line
-            data={charts.timeSeries}
-            options={{
-              plugins: { legend: { display: false } },
-              maintainAspectRatio: false,
-            }}
-          />
+          <div className="chart-canvas">
+            <Line
+              data={charts.timeSeries}
+              options={{
+                plugins: { legend: { display: false } },
+                maintainAspectRatio: false,
+              }}
+            />
+          </div>
         </div>
 
         <div className="card-chart">
           <h3>Average kWh per Device</h3>
-          <Bar
-            data={charts.deviceAvg}
-            options={{
-              plugins: { legend: { display: false } },
-              maintainAspectRatio: false,
-            }}
-          />
+          <div className="chart-canvas">
+            <Bar
+              data={charts.deviceAvg}
+              options={{
+                plugins: { legend: { display: false } },
+                maintainAspectRatio: false,
+              }}
+            />
+          </div>
         </div>
       </div>
       <div className="data-table-info">
